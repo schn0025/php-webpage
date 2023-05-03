@@ -11,13 +11,11 @@ class WebPage
     /** le constructeur permet de crée le debut de la page prenant en compt
      * le titre de la page
      * @param string $title
-     * @return void
      */
-    public function __constrict(string $title) :void{
-        $this->head = <<<HTML
-        <meta charset="utf-8">
-        HTML;
+    public function __construct(string $title = '') {
+        $this->head = '';
         $this->title = $title;
+        $this->body = '';
     }
 
     /** La fonction getHead permet d'avoir un retour de head
@@ -32,6 +30,14 @@ class WebPage
      */
     public function getTitle() :string{
         return $this->title;
+    }
+
+    /** permet de deffinir le titre de la page
+     * @param string $title nouveaux titre
+     * @return void
+     */
+    public function setTitle(string $title){
+        $this->title = $title;
     }
 
     /** getBody permet de voir le body
@@ -55,9 +61,9 @@ class WebPage
      */
     public function appendCss(string $css) :void{
         $this->head .= <<<HTML
-        <script>
-        {css}
-        </script>
+        <style>
+            {$css}
+        </style>
         HTML;
     }
 
@@ -76,9 +82,9 @@ class WebPage
      * @return void
      */
     public function appendJs(string $js) : void{
-        $this->body .= <<<HTML
+        $this->head .= <<<HTML
         <script>
-        {$js}
+            {$js}
         </script>
         HTML;
     }
@@ -88,8 +94,8 @@ class WebPage
      * @return void
      */
     public function appendJsUrl(string $url) : void{
-        $this->body .= <<<HTML
-        <script src'{$url}'></script>
+        $this->head .= <<<HTML
+        <script src="{$url}"></script>
         HTML;
     }
 
@@ -110,6 +116,7 @@ class WebPage
         <!doctype html>
         <html lang="fr">
             <head>
+                <meta charset="utf-8" name="viewport">
                 <title>{$this->title}</title>
                     {$this->head}
             </head>
